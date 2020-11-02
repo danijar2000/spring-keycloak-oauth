@@ -22,6 +22,7 @@ class ProductController {
         AccessToken token = getKeycloakSecurityContext().getToken();
         model.addAttribute("first_name", token.getGivenName());
         model.addAttribute("last_name", token.getFamilyName());
+        //getEmail() getRoles() getId()
         return "my";
     }
 
@@ -32,26 +33,14 @@ class ProductController {
     }
 
     protected KeycloakSecurityContext getKeycloakSecurityContext() {
-
         ServletRequestAttributes attributes = (ServletRequestAttributes)
                 RequestContextHolder.getRequestAttributes(); Principal principal = attributes.getRequest().getUserPrincipal();
 
-        if (principal instanceof KeycloakPrincipal)
-        {
+        if (principal instanceof KeycloakPrincipal) {
             KeycloakSecurityContext koj = KeycloakPrincipal.class.cast(principal).getKeycloakSecurityContext();
 
             return KeycloakPrincipal.class.cast(principal).getKeycloakSecurityContext();
         }
-
         return null;
-    }
-
-    public String getUserGroup() {
-        return getKeycloakSecurityContext().getToken().getOtherClaims().get("group").
-                toString();
-    }
-
-    public String getUserName() {
-        return getKeycloakSecurityContext().getToken().getName();
     }
 }
